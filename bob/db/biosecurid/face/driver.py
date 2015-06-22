@@ -18,7 +18,7 @@
 
 import os
 import sys
-from bob.db.driver import Interface as BaseInterface
+from bob.db.base.driver import Interface as BaseInterface
 
 def dumplist(args):
   """Dumps lists of files based on your criteria"""
@@ -36,7 +36,7 @@ def dumplist(args):
 
   output = sys.stdout
   if args.selftest:
-    from bob.db.utils import null
+    from bob.db.base.utils import null
     output = null()
 
   for f in r:
@@ -119,7 +119,7 @@ class Interface(BaseInterface):
 
   def version(self):
     import pkg_resources  # part of setuptools
-    return pkg_resources.require('xbob.db.%s' % self.name())[0].version
+    return pkg_resources.require('bob.db.%s' % self.name())[0].version
 
   def files(self):
 
@@ -144,7 +144,7 @@ class Interface(BaseInterface):
     from .query import Database
     import argparse
     db = Database()
-    
+
     # example: get the "dumplist" action from a submodule
     parser = subparsers.add_parser('dumplist', help=dumplist.__doc__)
     parser.add_argument('-d', '--directory', default='', help="if given, this path will be prepended to every entry returned.")
@@ -177,4 +177,4 @@ class Interface(BaseInterface):
     parser.add_argument('id', nargs='+', type=int, help="one or more file ids to look up. If you provide more than one, files which cannot be found will be omitted from the output. If you provide a single id to lookup, an error message will be printed if the id does not exist in the database. The exit status will be non-zero in such case.")
     parser.add_argument('--self-test', dest="selftest", action='store_true', help=argparse.SUPPRESS)
     parser.set_defaults(func=path) #action
-    
+

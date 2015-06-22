@@ -36,31 +36,31 @@ def add_clients(session, verbose):
   """Add clients to the BiosecurId database."""
   users_list = (userid_training, userid_dev_clients, userid_dev_impostors, userid_eval_clients, userid_eval_impostors)
   group_choices = ('world', 'clientDev','impostorDev','clientEval','impostorEval')
-  
+
   if verbose: print("Adding users...")
   for g, group in enumerate(group_choices):
     for cid in users_list[g]:
       if verbose>1: print("  Adding user '%d' on '%s' group..." % (cid,group))
       session.add(Client(cid, group))
 
-    
+
 
 def add_files(session, imagedir, verbose):
   """Add files to the BiosecurId database."""
 
   def add_file(session, basename, userdir, sessiondir):
     """Parse a single filename and add it to the list."""
-    shotid = int(basename[-1])    
+    shotid = int(basename[-1])
     session.add(File(int(userdir[-4:]), os.path.join(userdir, sessiondir, basename), int(sessiondir[-1]), shotid))
 
-  
+
   for userdir in os.listdir(imagedir):
     sdirs = os.listdir(os.path.join(imagedir,userdir))
     sessiondirs = [v for v in sdirs if os.path.isdir(os.path.join(imagedir,userdir,v))]
-    
+
     for sessiondir in sessiondirs:
       #if verbose: print("Adding files of sub-dir '%s'..." % subdir)
-      
+
       filenames = os.listdir(os.path.join(imagedir,userdir,sessiondir))
       for filename in filenames:
         basename, extension = os.path.splitext(filename)
@@ -104,13 +104,13 @@ def add_protocols(session, verbose):
         for k in q:
           if verbose>1: print("    Adding protocol file '%s'..." % (k.path))
           pu.files.append(k)
-          
+
       elif(key == 1): #dev enrol
         q = session.query(File).join(Client).filter(Client.sgroup == 'clientDev').filter(File.session_id.in_(enroll_session))
         for k in q:
           if verbose>1: print("    Adding protocol file '%s'..." % (k.path))
           pu.files.append(k)
-          
+
       elif(key == 2): #dev probe
         q = session.query(File).join(Client).filter(Client.sgroup == 'clientDev').filter(File.session_id.in_(client_probe_session))
         for k in q:
@@ -120,13 +120,13 @@ def add_protocols(session, verbose):
         for k in q:
           if verbose>1: print("    Adding protocol file '%s'..." % (k.path))
           pu.files.append(k)
-          
+
       elif(key == 3): #test enrol
         q = session.query(File).join(Client).filter(Client.sgroup == 'clientEval').filter(File.session_id.in_(enroll_session))
         for k in q:
           if verbose>1: print("    Adding protocol file '%s'..." % (k.path))
           pu.files.append(k)
-          
+
       elif(key == 4): #test probe
         q = session.query(File).join(Client).filter(Client.sgroup == 'clientEval').filter(File.session_id.in_(client_probe_session))
         for k in q:
@@ -136,12 +136,12 @@ def add_protocols(session, verbose):
         for k in q:
           if verbose>1: print("    Adding protocol file '%s'..." % (k.path))
           pu.files.append(k)
-      
-      
+
+
 def create_tables(args):
   """Creates all necessary tables (only to be used at the first time)"""
 
-  from bob.db.utils import create_engine_try_nolock
+  from bob.db.base.utils import create_engine_try_nolock
   engine = create_engine_try_nolock(args.type, args.files[0], echo=(args.verbose > 2))
   Base.metadata.create_all(engine)
 
@@ -151,7 +151,7 @@ def create_tables(args):
 def create(args):
   """Creates or re-creates this database"""
 
-  from bob.db.utils import session_try_nolock
+  from bob.db.base.utils import session_try_nolock
 
   dbfile = args.files[0]
 
@@ -179,6 +179,6 @@ def add_command(subparsers):
 
   parser.add_argument('-R', '--recreate', action='store_true', help="If set, I'll first erase the current database")
   parser.add_argument('-v', '--verbose', action='count', help="Do SQL operations in a verbose way?")
-  parser.add_argument('-D', '--imagedir', metavar='DIR', default='/Users/martagomezbarrero/Documents/BiosecurID/data/', help="Change the relative path to the directory containing the images of the XM2VTS database.")
+  parser.add_argument('-D', '--imagedir', metavar='DIR', default='/Users/martagomezbarrero/Documents/BiosecurID/data/', help="Change the relative path to the directory containing the images of the BiosecurID database.")
 
   parser.set_defaults(func=create) #action

@@ -18,13 +18,13 @@
 
 import os, sys
 import unittest
-import xbob.db.biosecurid.face
+import bob.db.biosecurid.face
 
 class BiosecuridDatabaseTest(unittest.TestCase):
   """Performs various tests on the Biosecurid database."""
 
   def test01_clients(self):
-    db = xbob.db.biosecurid.face.Database()
+    db = bob.db.biosecurid.face.Database()
     self.assertEqual(len(db.groups()), 3)
     self.assertEqual(len(db.clients()), 400)
     self.assertEqual(len(db.clients(groups='dev')), 150)
@@ -38,7 +38,7 @@ class BiosecuridDatabaseTest(unittest.TestCase):
 
 
   def test02_objects(self):
-    db = xbob.db.biosecurid.face.Database()
+    db = bob.db.biosecurid.face.Database()
     self.assertEqual(len(db.objects()), 6400)
     # A
     self.assertEqual(len(db.objects(protocol='A')), 6400)
@@ -65,15 +65,15 @@ class BiosecuridDatabaseTest(unittest.TestCase):
     self.assertEqual(len(db.objects(protocol='A', groups='eval', purposes='probe', model_ids=[1301,1302])), 176)
     self.assertEqual(len(db.objects(protocol='A', groups='eval', purposes='probe', model_ids=[1301,1302], classes='client')), 16)
     self.assertEqual(len(db.objects(protocol='A', groups='eval', purposes='probe', model_ids=[1301,1302], classes='impostor')), 160)
-    
 
 
-  
+
+
 
 
   def test03_driver_api(self):
 
-    from bob.db.script.dbmanage import main
+    from bob.db.base.script.dbmanage import main
     self.assertEqual(main('biosecurid.face dumplist --self-test'.split()), 0)
     self.assertEqual(main('biosecurid.face dumplist --protocol=A --class=client --group=dev --purpose=enrol --client=1151 --self-test'.split()), 0)
     self.assertEqual(main('biosecurid.face checkfiles --self-test'.split()), 0)

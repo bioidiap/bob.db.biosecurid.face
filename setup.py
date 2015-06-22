@@ -13,20 +13,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, dist
+dist.Distribution(dict(setup_requires=['bob.extension']))
+
+from bob.extension.utils import load_requirements
+install_requires = load_requirements()
+
+# Define package version
+version = open("version.txt").read().rstrip()
 
 # The only thing we do in this file is to call the setup() function with all
 # parameters that define our package.
 setup(
 
-    name='xbob.db.biosecurid.face',
-    version='0.0.1a0',
-    description='BiosecurID Database Access API for Bob',
-    url='https://pypi.python.org/pypi/xbob.db.biosecurid.face',
+    name='bob.db.biosecurid.face',
+    version=version,
+    description='BANCA Database Access API for Bob',
+    url='https://pypi.python.org/pypi/bob.db.biosecurid.face',
     license='GPLv3',
     author='',
     author_email='',
-    keywords='face recognition, bob, xbob, xbob.db',
+    keywords='face recognition, bob, bob.db, biosecurid',
     long_description=open('README.rst').read(),
 
     # This line is required for any distutils based packaging.
@@ -34,32 +41,23 @@ setup(
     include_package_data=True,
     zip_safe=False,
 
-    install_requires=[
-      'setuptools',
-      'six',  # py2/3 compatibility library
-      'bob',  # base signal proc./machine learning library
-      'xbob.db.verification.utils>=1.0.0' # defines a set of utilities for face verification databases like this one.
-    ],
+    install_requires = install_requires,
 
     namespace_packages = [
-      'xbob',
-      'xbob.db',
-      ],
+      'bob',
+      'bob.db',
+    ],
 
     entry_points = {
       # bob database declaration
       'bob.db': [
-        'biosecurid.face = xbob.db.biosecurid.face.driver:Interface',
-        ],
-
-      # bob unittest declaration
-      'bob.test': [
-        'biosecurid.face = xbob.db.biosecurid.face.test:BiosecurIdDatabaseTest',
-        ],
-      },
+        'biosecurid.face = bob.db.biosecurid.face.driver:Interface',
+      ],
+    },
 
     classifiers = [
-      'Development Status :: 3 - Alpha',
+      'Framework :: Bob',
+      'Development Status :: 4 - Beta',
       'Environment :: Console',
       'Intended Audience :: Developers',
       'Intended Audience :: Education',
@@ -70,5 +68,6 @@ setup(
       'Programming Language :: Python :: 3',
       'Topic :: Scientific/Engineering :: Artificial Intelligence',
       'Topic :: Database :: Front-Ends',
-      ],
+    ],
 )
+
