@@ -19,15 +19,15 @@ BiosecurID database in the most obvious ways.
 
 import os
 import six
-from bob.db import utils
+from bob.db.base import utils
 from .models import *
 from .driver import Interface
 
-import xbob.db.verification.utils
+import bob.db.verification.utils
 
 SQLITE_FILE = Interface().files()[0]
 
-class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.utils.Database):
+class Database(bob.db.verification.utils.SQLiteDatabase,bob.db.verification.utils.Database):
   """The dataset class opens and maintains a connection opened to the Database.
 
   It provides many different ways to probe for the characteristics of the data
@@ -36,8 +36,8 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
 
   def __init__(self, original_directory = None, original_extension = '.bmp'):
     # call base class constructor
-    xbob.db.verification.utils.SQLiteDatabase.__init__(self, SQLITE_FILE, File)
-    xbob.db.verification.utils.Database.__init__(self, original_directory=original_directory, original_extension=original_extension)
+    bob.db.verification.utils.SQLiteDatabase.__init__(self, SQLITE_FILE, File)
+    bob.db.verification.utils.Database.__init__(self, original_directory=original_directory, original_extension=original_extension)
 
   def __group_replace_alias__(self, l):
     """Replace 'dev' by 'clientDev' and 'eval' by 'clientEval' in a list of groups, and
@@ -49,7 +49,7 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
       if(val == 'dev'): l2.append('clientDev')
       if(val == 'eval'): l2.append('clientEval')
     return tuple(set(l2))
-  
+
   def __group_replace_alias_clients__(self, l):
     """Replace 'dev' by 'clientDev' and 'eval' by 'clientEval' in a list of groups, and
        returns the new list"""
@@ -92,7 +92,7 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
     Returns: A list containing all the clients which have the given properties.
     """
 
-    
+
     groups = self.__group_replace_alias_clients__(groups)
     groups = self.check_parameters_for_validity(groups, "group", self.client_groups())
     # List of the clients
@@ -128,8 +128,8 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
       q = q.filter(Client.sgroup.in_(['clientDev','clientEval']))
     q = q.order_by(Client.id)
     return list(q)
-    
-    
+
+
 
   def model_ids(self, protocol=None, groups=None):
     """Returns a list of model ids for the specific query by the user.
@@ -194,7 +194,7 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
 
     Returns: A list of :py:class:`.File` objects.
     """
-    
+
     #groups = self.__group_replace_alias_clients__(groups)
     protocol = self.check_parameters_for_validity(protocol, "protocol", self.protocol_names())
     purposes = self.check_parameters_for_validity(purposes, "purpose", self.purposes())
@@ -209,7 +209,7 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
 
     # Now query the database
     retval = []
-    
+
     if 'world' in groups:
       q = self.query(File).join(Client).join((ProtocolPurpose, File.protocolPurposes)).join(Protocol).\
             filter(Client.sgroup == 'world').\
@@ -218,7 +218,7 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
         q = q.filter(Client.id.in_(model_ids))
       q = q.order_by(File.client_id, File.session_id, File.shot_id)
       retval += list(q)
-    
+
     if ('dev' in groups or 'eval' in groups):
       if('enrol' in purposes):
         q = self.query(File).join(Client).join((ProtocolPurpose, File.protocolPurposes)).join(Protocol).\
@@ -228,7 +228,7 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
           q = q.filter(Client.id.in_(model_ids))
         q = q.order_by(File.client_id, File.session_id, File.shot_id)
         retval += list(q)
-    
+
       if('probe' in purposes):
         if('client' in classes):
           ltmp=[]
@@ -268,10 +268,10 @@ class Database(xbob.db.verification.utils.SQLiteDatabase,xbob.db.verification.ut
             q = q.filter(not_(Client.id.in_(model_ids)))
           q = q.order_by(File.client_id, File.session_id, File.shot_id)
           retval += list(q)
-    
+
     return list(set(retval)) # To remove duplicates
 
-  
+
 
   def protocol_names(self):
     """Returns all registered protocol names"""
