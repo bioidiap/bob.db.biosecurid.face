@@ -179,6 +179,6 @@ def add_command(subparsers):
 
   parser.add_argument('-R', '--recreate', action='store_true', help="If set, I'll first erase the current database")
   parser.add_argument('-v', '--verbose', action='count', help="Do SQL operations in a verbose way?")
-  parser.add_argument('-D', '--imagedir', metavar='DIR', default='/Users/martagomezbarrero/Documents/BiosecurID/data/', help="Change the relative path to the directory containing the images of the XM2VTS database.")
+  parser.add_argument('-D', '--imagedir', metavar='DIR', default='/Users/martagomezbarrero/Documents/BiosecurID/data/', help="Change the relative path to the directory containing the images of the BiosecurID database.")
 
   parser.set_defaults(func=create) #action
