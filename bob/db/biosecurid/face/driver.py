@@ -64,7 +64,7 @@ def checkfiles(args):
   # report
   output = sys.stdout
   if args.selftest:
-    from bob.db.utils import null
+    from bob.db.base.utils import null
     output = null()
 
   if bad:
@@ -83,7 +83,7 @@ def reverse(args):
 
   output = sys.stdout
   if args.selftest:
-    from bob.db.utils import null
+    from bob.db.base.utils import null
     output = null()
 
   r = db.reverse(args.path)
@@ -101,7 +101,7 @@ def path(args):
 
   output = sys.stdout
   if args.selftest:
-    from bob.db.utils import null
+    from bob.db.base.utils import null
     output = null()
 
   r = db.paths(args.id, prefix=args.directory, suffix=args.extension)
