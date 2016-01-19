@@ -18,8 +18,8 @@
  BiosecurID Database
 =====================
 
-This package contains the access API and descriptions for the `BiosecurID
-Database `_.
+This package contains the access API and descriptions for the BiosecurID
+Database.
 
 You would normally not install this package unless you are maintaining it. What
 you would do instead is to tie it in at the package you need to **use** it.
