@@ -29,10 +29,10 @@ setup(
     name='bob.db.biosecurid.face',
     version=version,
     description='BANCA Database Access API for Bob',
-    url='https://pypi.python.org/pypi/bob.db.biosecurid.face',
+    url='https://github.com/bioidiap/bob.db.biosecurid.face',
     license='GPLv3',
-    author='',
-    author_email='',
+    author='Marta Gomez-Barrero',
+    author_email='marta.barrero@uam.es',
     keywords='face recognition, bob, bob.db, biosecurid',
     long_description=open('README.rst').read(),
 
