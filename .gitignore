@@ -10,6 +10,7 @@ parts
 src
 develop-eggs
 built-docs
-dist
 sphinx
 db.sql3
+build/
+dist/
