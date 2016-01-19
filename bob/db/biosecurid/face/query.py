@@ -240,7 +240,7 @@ class Database(bob.db.verification.utils.SQLiteDatabase,bob.db.verification.util
           q = self.query(File).join(Client).join((ProtocolPurpose, File.protocolPurposes)).join(Protocol).\
                 filter(Client.sgroup.in_(clientGroups)).\
                 filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(groups), ProtocolPurpose.purpose == 'probe'))
-          print model_ids
+          print(model_ids)
           if model_ids:
             q = q.filter(Client.id.in_(model_ids))
           q = q.order_by(File.client_id, File.session_id, File.shot_id)
