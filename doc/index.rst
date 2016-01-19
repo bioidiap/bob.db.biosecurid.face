@@ -4,4 +4,4 @@
  BiosecurId Database
 =====================
 
-.. automodule:: xbob.db.biosecurid.face
+.. automodule:: bob.db.biosecurid.face
