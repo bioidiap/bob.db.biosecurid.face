@@ -2,7 +2,7 @@
    :target: http://pythonhosted.org/bob.db.biosecurid.face/index.html
 .. image:: http://img.shields.io/badge/docs-latest-orange.png
    :target: https://www.idiap.ch/software/bob/docs/latest/bioidiap/bob.db.biosecurid.face/master/index.html
-.. image:: https://travis-ci.org/bioidiap/bob.db.biosecurid.face.svg?branch=master
+.. image:: https://travis-ci.org/bioidiap/bob.db.biosecurid.face.svg?branch=v2.0.3
    :target: https://travis-ci.org/bioidiap/bob.db.biosecurid.face
 .. image:: https://coveralls.io/repos/bioidiap/bob.db.biosecurid.face/badge.png
    :target: https://coveralls.io/r/bioidiap/bob.db.biosecurid.face
