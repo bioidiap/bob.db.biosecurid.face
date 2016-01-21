@@ -9,6 +9,7 @@ matrix:
     - secure: m2cBj5HxPG07yrNmPZDJCcAFwLcSd6ItpCzglnYxkOTVr/b/zBietKE6vRRdHE0mN74BqnBthHc+OGeqnMBFnlMuBuC/lSO1pl8bkgrfkN3cZKuwo5mjIZJ3itOnvzWjOh2NPHJW5EoElChp+IckfvSESyi6blCNE8vxdm9FamaoYJv29hA1/QSoYmeb1lMVFfVqxTZffVwExp+qtVMqVFRyI+oSAUd5eOzD7lXx4L/6I4fNqvVbh2wpma8OG+JE90Az7lkH/oqJ+EOPuEKOkeIzaBe9KAZoQ42SbcwKr4D67n7aeVF9cw3lZsFYG3Jlf0z6yA5ym4Qy6CUqKsaoJ3/J9ZM5idj+48xfh4NlXZ0cEyPAJJ+MUWhCRhqBMLb8s5JV5mpmUaaJU9FxfMpfjog0eypqzpmXUaapGvP7Oyr4o+yBFsch2ovU2FstZoA/NnXj6dIYlFZdTYAr/p1h2QvUWv1NCgFjVzgPP1NbqNDDK64UFaF5rIk/cStvDx7S5zZih4Vp7nvxA/27Cg6FFHP5SLXLZg6jkBjAST2YOUt2bs/FbWRsi4257aa7ghIRPgIokI+7lkcQlzKA6cxCzqpFloEJXJrvD+1NkBgByljw6waJoJP5n+dURq5ZHHgFLUtmGLIDhYnhI/+Lnssk4Tjmg8rwdWcBnP7a3w776wA=
   - python: 3.3
   - python: 3.4
+  - python: 3.5
 before_install:
 - sudo add-apt-repository -y ppa:biometrics/bob
 - sudo apt-get update -qq
