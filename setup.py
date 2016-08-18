@@ -29,7 +29,7 @@ setup(
     name='bob.db.biosecurid.face',
     version=version,
     description='BANCA Database Access API for Bob',
-    url='https://github.com/bioidiap/bob.db.biosecurid.face',
+    url='https://gitlab.idiap.ch/bob/bob.db.biosecurid.face',
     license='GPLv3',
     author='Marta Gomez-Barrero',
     author_email='marta.barrero@uam.es',
