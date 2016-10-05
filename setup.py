@@ -1,17 +1,5 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf-8 :
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, version 3 of the License.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from setuptools import setup, find_packages, dist
 dist.Distribution(dict(setup_requires=['bob.extension']))
@@ -32,7 +20,9 @@ setup(
     url='https://gitlab.idiap.ch/bob/bob.db.biosecurid.face',
     license='BSD',
     author='Marta Gomez-Barrero',
-    author_email='marta.barrero@uam.es',
+    author_email='marta.gomez-barrero@h-da.de',
+    maintainer='Andre Anjos',
+    maintainer_email='andre.anjos@idiap.ch',
     keywords='face recognition, bob, bob.db, biosecurid',
     long_description=open('README.rst').read(),
 
