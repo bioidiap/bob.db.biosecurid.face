@@ -20,9 +20,8 @@
 ====================
 
 This package is part of the signal-processing and machine learning toolbox
-Bob_. and it contains the access API and descriptions for the BiosecurID
-Database.
-
+Bob_. It contains the access API and descriptions for the face modality of the
+`BiosecurID Database`_.
 
 
 Installation
@@ -46,3 +45,4 @@ development `mailing list`_.
 .. _bob: https://www.idiap.ch/software/bob
 .. _installation: https://gitlab.idiap.ch/bob/bob/wikis/Installation
 .. _mailing list: https://groups.google.com/forum/?fromgroups#!forum/bob-devel
+.. _biosecurid database: http://atvs.ii.uam.es/databases.jsp
