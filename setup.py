@@ -16,7 +16,7 @@ setup(
 
     name='bob.db.biosecurid.face',
     version=version,
-    description='BANCA Database Access API for Bob',
+    description='BiosecurID (face) Database Access API for Bob',
     url='https://gitlab.idiap.ch/bob/bob.db.biosecurid.face',
     license='BSD',
     author='Marta Gomez-Barrero',
@@ -31,13 +31,13 @@ setup(
     include_package_data=True,
     zip_safe=False,
 
-    install_requires = install_requires,
+    install_requires=install_requires,
 
-    entry_points = {
+    entry_points={
       'bob.db': [
         'biosecurid.face = bob.db.biosecurid.face.driver:Interface',
-      ],
-    },
+        ],
+      },
 
     classifiers = [
       'Framework :: Bob',
