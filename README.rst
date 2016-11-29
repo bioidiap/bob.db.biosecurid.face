@@ -5,8 +5,8 @@
    :target: http://pythonhosted.org/bob.db.biosecurid.face/index.html
 .. image:: http://img.shields.io/badge/docs-latest-orange.png
    :target: https://www.idiap.ch/software/bob/docs/latest/bob/bob.db.biosecurid.face/master/index.html
-.. image:: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face/badges/v2.1.4/build.svg
-   :target: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face/commits/v2.1.4
+.. image:: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face/badges/master/build.svg
+   :target: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face/commits/master
 .. image:: https://img.shields.io/badge/gitlab-project-0000c0.svg
    :target: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face
 .. image:: http://img.shields.io/pypi/v/bob.db.biosecurid.face.png
