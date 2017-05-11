@@ -13,6 +13,7 @@ import bob.db.base
 
 SQLITE_FILE = Interface().files()[0]
 
+
 class Database(bob.db.base.SQLiteDatabase):
   """The dataset class opens and maintains a connection opened to the Database.
 
@@ -20,33 +21,40 @@ class Database(bob.db.base.SQLiteDatabase):
   and for the data itself inside the database.
   """
 
-  def __init__(self, original_directory = None, original_extension = '.bmp'):
+  def __init__(self, original_directory=None, original_extension='.bmp'):
     # call base class constructor
-    super(Database, self).__init__(SQLITE_FILE, File)
-    self.original_directory = original_directory
-    self.original_extension = original_extension
+    super(Database, self).__init__(SQLITE_FILE, File,
+                                   original_directory, original_extension)
 
   def __group_replace_alias__(self, l):
     """Replace 'dev' by 'clientDev' and 'eval' by 'clientEval' in a list of groups, and
        returns the new list"""
-    if not l: return l
-    elif isinstance(l, six.string_types): return self.__group_replace_alias__((l,))
+    if not l:
+      return l
+    elif isinstance(l, six.string_types):
+      return self.__group_replace_alias__((l,))
     l2 = []
     for val in l:
-      if(val == 'dev'): l2.append('clientDev')
-      if(val == 'eval'): l2.append('clientEval')
+      if(val == 'dev'):
+        l2.append('clientDev')
+      if(val == 'eval'):
+        l2.append('clientEval')
     return tuple(set(l2))
 
   def __group_replace_alias_clients__(self, l):
     """Replace 'dev' by 'clientDev' and 'eval' by 'clientEval' in a list of groups, and
        returns the new list"""
-    if not l: return l
-    elif isinstance(l, six.string_types): return self.__group_replace_alias_clients__((l,))
+    if not l:
+      return l
+    elif isinstance(l, six.string_types):
+      return self.__group_replace_alias_clients__((l,))
     l2 = []
     for val in l:
       if(val == 'dev' or val == 'eval'):
-        if(val == 'dev'): l2.extend(['clientDev','impostorDev'])
-        if(val == 'eval'): l2.extend(['clientEval','impostorEval'])
+        if(val == 'dev'):
+          l2.extend(['clientDev', 'impostorDev'])
+        if(val == 'eval'):
+          l2.extend(['clientEval', 'impostorEval'])
       else:
         l2.append(val)
     return tuple(set(l2))
@@ -79,9 +87,9 @@ class Database(bob.db.base.SQLiteDatabase):
     Returns: A list containing all the clients which have the given properties.
     """
 
-
     groups = self.__group_replace_alias_clients__(groups)
-    groups = self.check_parameters_for_validity(groups, "group", self.client_groups())
+    groups = self.check_parameters_for_validity(
+        groups, "group", self.client_groups())
     # List of the clients
     q = self.query(Client)
     if groups:
@@ -112,11 +120,9 @@ class Database(bob.db.base.SQLiteDatabase):
     if groups:
       q = q.filter(Client.sgroup.in_(self.__group_replace_alias__(groups)))
     else:
-      q = q.filter(Client.sgroup.in_(['clientDev','clientEval']))
+      q = q.filter(Client.sgroup.in_(['clientDev', 'clientEval']))
     q = q.order_by(Client.id)
     return list(q)
-
-
 
   def model_ids(self, protocol=None, groups=None):
     """Returns a list of model ids for the specific query by the user.
@@ -141,13 +147,13 @@ class Database(bob.db.base.SQLiteDatabase):
   def has_client_id(self, id):
     """Returns True if we have a client with a certain integer identifier"""
 
-    return self.query(Client).filter(Client.id==id).count() != 0
+    return self.query(Client).filter(Client.id == id).count() != 0
 
   def client(self, id):
     """Returns the client object in the database given a certain id. Raises
     an error if that does not exist."""
 
-    return self.query(Client).filter(Client.id==id).one()
+    return self.query(Client).filter(Client.id == id).one()
 
   def objects(self, protocol=None, purposes=None, model_ids=None, groups=None,
               classes=None):
@@ -183,15 +189,18 @@ class Database(bob.db.base.SQLiteDatabase):
     """
 
     #groups = self.__group_replace_alias_clients__(groups)
-    protocol = self.check_parameters_for_validity(protocol, "protocol", self.protocol_names())
-    purposes = self.check_parameters_for_validity(purposes, "purpose", self.purposes())
+    protocol = self.check_parameters_for_validity(
+        protocol, "protocol", self.protocol_names())
+    purposes = self.check_parameters_for_validity(
+        purposes, "purpose", self.purposes())
     groups = self.check_parameters_for_validity(groups, "group", self.groups())
-    classes = self.check_parameters_for_validity(classes, "class", ('client', 'impostor'))
+    classes = self.check_parameters_for_validity(
+        classes, "class", ('client', 'impostor'))
 
     import collections
     if(model_ids is None):
       model_ids = ()
-    elif(not isinstance(model_ids,collections.Iterable)):
+    elif(not isinstance(model_ids, collections.Iterable)):
       model_ids = (model_ids,)
 
     # Now query the database
@@ -199,8 +208,9 @@ class Database(bob.db.base.SQLiteDatabase):
 
     if 'world' in groups:
       q = self.query(File).join(Client).join((ProtocolPurpose, File.protocolPurposes)).join(Protocol).\
-            filter(Client.sgroup == 'world').\
-            filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup == 'world'))
+          filter(Client.sgroup == 'world').\
+          filter(and_(Protocol.name.in_(protocol),
+                      ProtocolPurpose.sgroup == 'world'))
       if model_ids:
         q = q.filter(Client.id.in_(model_ids))
       q = q.order_by(File.client_id, File.session_id, File.shot_id)
@@ -209,8 +219,9 @@ class Database(bob.db.base.SQLiteDatabase):
     if ('dev' in groups or 'eval' in groups):
       if('enrol' in purposes):
         q = self.query(File).join(Client).join((ProtocolPurpose, File.protocolPurposes)).join(Protocol).\
-              filter(Client.sgroup.in_(['clientDev','clientEval'])).\
-              filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(groups), ProtocolPurpose.purpose == 'enrol'))
+            filter(Client.sgroup.in_(['clientDev', 'clientEval'])).\
+            filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(
+                groups), ProtocolPurpose.purpose == 'enrol'))
         if model_ids:
           q = q.filter(Client.id.in_(model_ids))
         q = q.order_by(File.client_id, File.session_id, File.shot_id)
@@ -218,47 +229,49 @@ class Database(bob.db.base.SQLiteDatabase):
 
       if('probe' in purposes):
         if('client' in classes):
-          ltmp=[]
-          if( 'dev' in groups):
+          ltmp = []
+          if('dev' in groups):
             ltmp.append('clientDev')
-          if( 'eval' in groups):
+          if('eval' in groups):
             ltmp.append('clientEval')
           clientGroups = tuple(ltmp)
           q = self.query(File).join(Client).join((ProtocolPurpose, File.protocolPurposes)).join(Protocol).\
-                filter(Client.sgroup.in_(clientGroups)).\
-                filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(groups), ProtocolPurpose.purpose == 'probe'))
-          #print(model_ids)
+              filter(Client.sgroup.in_(clientGroups)).\
+              filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(
+                  groups), ProtocolPurpose.purpose == 'probe'))
+          # print(model_ids)
           if model_ids:
             q = q.filter(Client.id.in_(model_ids))
           q = q.order_by(File.client_id, File.session_id, File.shot_id)
           retval += list(q)
 
-        # Exhaustive tests using the impostor{Dev,Eval} sets -> no need to check for model_ids
+        # Exhaustive tests using the impostor{Dev,Eval} sets -> no need to
+        # check for model_ids
         if('impostor' in classes):
           ltmp = []
-          if( 'dev' in groups):
+          if('dev' in groups):
             ltmp.append('impostorDev')
-          if( 'eval' in groups):
+          if('eval' in groups):
             ltmp.append('impostorEval')
           impostorGroups = tuple(ltmp)
           q = self.query(File).join(Client).join((ProtocolPurpose, File.protocolPurposes)).join(Protocol).\
-                filter(Client.sgroup.in_(ltmp)).\
-                filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(groups), ProtocolPurpose.purpose == 'probe'))
+              filter(Client.sgroup.in_(ltmp)).\
+              filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(
+                  groups), ProtocolPurpose.purpose == 'probe'))
           q = q.order_by(File.client_id, File.session_id, File.shot_id)
           retval += list(q)
 
           # Needs to add 'client-impostor' samples
           q = self.query(File).join(Client).join((ProtocolPurpose, File.protocolPurposes)).join(Protocol).\
-                filter(Client.sgroup == 'client').\
-                filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(groups), ProtocolPurpose.purpose == 'probe'))
+              filter(Client.sgroup == 'client').\
+              filter(and_(Protocol.name.in_(protocol), ProtocolPurpose.sgroup.in_(
+                  groups), ProtocolPurpose.purpose == 'probe'))
           if(len(model_ids) == 1):
             q = q.filter(not_(Client.id.in_(model_ids)))
           q = q.order_by(File.client_id, File.session_id, File.shot_id)
           retval += list(q)
 
-    return list(set(retval)) # To remove duplicates
-
-
+    return list(set(retval))  # To remove duplicates
 
   def protocol_names(self):
     """Returns all registered protocol names"""
@@ -275,13 +288,13 @@ class Database(bob.db.base.SQLiteDatabase):
   def has_protocol(self, name):
     """Tells if a certain protocol is available"""
 
-    return self.query(Protocol).filter(Protocol.name==name).count() != 0
+    return self.query(Protocol).filter(Protocol.name == name).count() != 0
 
   def protocol(self, name):
     """Returns the protocol object in the database given a certain name. Raises
     an error if that does not exist."""
 
-    return self.query(Protocol).filter(Protocol.name==name).one()
+    return self.query(Protocol).filter(Protocol.name == name).one()
 
   def protocol_purposes(self):
     """Returns all registered protocol purposes"""
@@ -292,4 +305,3 @@ class Database(bob.db.base.SQLiteDatabase):
     """Returns the list of allowed purposes"""
 
     return ProtocolPurpose.purpose_choices
-
