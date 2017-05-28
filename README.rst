@@ -7,6 +7,8 @@
    :target: https://www.idiap.ch/software/bob/docs/latest/bob/bob.db.biosecurid.face/master/index.html
 .. image:: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face/badges/master/build.svg
    :target: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face/commits/master
+.. image:: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face/badges/master/coverage.svg
+   :target: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face/commits/master
 .. image:: https://img.shields.io/badge/gitlab-project-0000c0.svg
    :target: https://gitlab.idiap.ch/bob/bob.db.biosecurid.face
 .. image:: http://img.shields.io/pypi/v/bob.db.biosecurid.face.svg
@@ -27,11 +29,10 @@ Bob_. It contains the access API and descriptions for the face modality of the
 Installation
 ------------
 
-Follow our `installation`_ instructions. Then, using the Python interpreter
-provided by the distribution, bootstrap and buildout this package::
+Complete Bob's `installation`_ instructions. Then, to install this pacakge,
+run::
 
-  $ python bootstrap-buildout.py
-  $ ./bin/buildout
+  $ conda install bob.db.biosecurid.face
 
 
 Contact
